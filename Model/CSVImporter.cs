@@ -3,25 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Linq;
 using System.IO;
+using Microsoft.OData.Edm;
 
 namespace LINQStockPrice.Model
 {
     class CSVImporter
     {
+        static void Import(string[] args)
+        {
+            var stocks = ProcessCSV("ATX.csv");
 
-        var cs = from l in File.ReadAllLines(ATX).Skip(1)
-                 let x = l.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries)
-                                .Select(s => s)
-                 select new ListOfStocks
-                 {
-                     Date = x.ElementAt(0),
-                     Open = double.Parse(x.ElementAt(1), System.Globalization.CultureInfo.InvariantCulture),
-                     High = x.ElementAt(2),
-                     Low = x.ElementAt(3),
-                     ChgP = x.ElementAt(4),
-                 };
-
+            static List<Stock> ProcessCSV(string path)
+            {
+                return File.ReadAllLines(path)
+                    .Skip(1)
+                    .Where(row => row.Length > 0)
+                    .Select(Stock.ParseRow).ToList();
+            };
+        }
     }
 }

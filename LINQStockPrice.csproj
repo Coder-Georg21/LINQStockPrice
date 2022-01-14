@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="ViewModel\" />
+    <PackageReference Include="Microsoft.OData.Edm" Version="7.9.4" />
   </ItemGroup>
 
 </Project>
